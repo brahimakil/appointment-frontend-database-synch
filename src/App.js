@@ -25,8 +25,11 @@ import {
 } from 'lucide-react';
 import './index.css';
 
-// Fix the socket connection with better stability
-const socket = io('http://localhost:3001', {
+// Updated to use your deployed backend URL
+const BACKEND_URL = 'https://appointment-backend-database-synch.onrender.com';
+
+// Updated socket connection for production
+const socket = io(BACKEND_URL, {
   transports: ['websocket', 'polling'],
   timeout: 45000,
   forceNew: false,
@@ -266,9 +269,10 @@ function App() {
     setLogs(prev => [...prev.slice(-49), { message, type, timestamp, id: Date.now() }]);
   };
 
+  // Updated API call function to use production backend
   const apiCall = async (endpoint, method = 'GET', showSuccess = true) => {
     try {
-      const response = await fetch(`http://localhost:3001${endpoint}`, { 
+      const response = await fetch(`${BACKEND_URL}${endpoint}`, { 
         method,
         headers: { 'Content-Type': 'application/json' },
         mode: 'cors'
